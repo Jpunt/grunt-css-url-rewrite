@@ -22,6 +22,8 @@ module.exports = function(grunt) {
     var opts = this.options();
     var done = this.async();
 
+    var filesRemaining = this.files.length;
+
     // Process each src file
     this.files.forEach(function(file) {
       var dest = file.dest;
@@ -37,7 +39,9 @@ module.exports = function(grunt) {
       async.parallel(tasks, function(err, output) {
         grunt.file.write(dest, output);
         grunt.log.writeln('File "' + dest + '" created.');
-        done();
+        filesRemaining--;
+        if (filesRemaining == 0)
+          done();
       });
     });
   });
