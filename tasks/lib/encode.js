@@ -100,17 +100,20 @@ exports.init = function(grunt) {
           is_local_file = !rData.test(img) && !rExternal.test(img);
 
         // Resolve the image path relative to the CSS file
-        if(is_local_file) {
-          // local file system.. fix up the path
-          loc = img.charAt(0) === "/" ?
-            (opts.baseDir || "") + loc :
-            path.join(path.dirname(srcFile),  (opts.baseDir || "") + img);
+        // (@egpierro) provide an option to disable this, because it does not work well on windows envs
+        if(opts.resolvePath) {
+            if (is_local_file) {
+                // local file system.. fix up the path
+                loc = img.charAt(0) === "/" ?
+                    (opts.baseDir || "") + loc :
+                    path.join(path.dirname(srcFile), (opts.baseDir || "") + img);
 
-          // If that didn't work, try finding the image relative to
-          // the current file instead.
-          if(!fs.existsSync(loc)) {
-            loc = path.resolve(__dirname + img);
-          }
+                // If that didn't work, try finding the image relative to
+                // the current file instead.
+                if (!fs.existsSync(loc)) {
+                    loc = path.resolve(__dirname + img);
+                }
+            }
         }
 
         exports.image(loc, opts, function(err, resp) {

@@ -32,6 +32,7 @@ grunt.initConfig({
       dest: "css/output.css",
       options: {
         skipExternal: true,
+        resolvePath: true,
         rewriteUrl: function(url, options, dataURI) {
           var path = url.replace(options.baseDir, '');
           var hash = require('crypto').createHash('md5').update(dataURI).digest('hex');
@@ -116,6 +117,7 @@ CssUrlRewrite can be customized by specifying the following options:
 * `baseDir`: If you have absolute image paths in your stylesheet, the path specified in this option will be used as the base directory.
 * `stripParameters`: Remove querystring-parameters from url's.
 * `skipExternal`: Skip external url's. Rewriting external url's doesn't always work yet, so this could be necessary for good results.
+* `resolvePath`: If set to true, it will automatically resolve the local path to each URL. In windows environments, set this to false.
 
 ### Skipping Images
 
