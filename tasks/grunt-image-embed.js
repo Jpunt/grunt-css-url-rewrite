@@ -20,7 +20,7 @@ module.exports = function(grunt) {
 
   grunt.registerMultiTask("cssUrlRewrite", "Rewrite URIs inside your stylesheets", function() {
     var opts = this.options();
-    var done = this.async();
+    var done = opts.parallel === false ? function() {} : this.async();
 
     var filesRemaining = this.files.length;
 
@@ -35,15 +35,23 @@ module.exports = function(grunt) {
         };
       });
 
-      // Once all files have been processed write them out.
-      async.parallel(tasks, function(err, output) {
+      // Once all files have been processed write them out.	  
+      var cb = function(err, output) {
         grunt.file.write(dest, output);
         grunt.log.writeln('File "' + dest + '" created.');
         filesRemaining--;
         if (filesRemaining === 0) {
           done();
         }
-      });
+      };
+      if (opts.parallel === false) {
+        grunt.util._.each(tasks, function(task) {
+          task(cb);
+        });
+      } else {
+        // Once all files have been processed write them out.
+        async.parallel(tasks, cb);
+      }
     });
   });
 
