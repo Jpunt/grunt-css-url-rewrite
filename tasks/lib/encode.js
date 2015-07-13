@@ -16,7 +16,7 @@ var grunt_fetch = require("./fetch");
 
 // Cache regex's
 var rImages = /([\s\S]*?)(url\(([^)]+)\))(?!\s*[;,]?\s*\/\*\s*CssUrlRewrite:skip\s*\*\/)|([\s\S]+)/img; // TODO: Strip of CssUrlRewrite:skip
-var rExternal = /^http/;
+var rExternal = /^http|^\/\//;
 var rData = /^data:/;
 var rQuotes = /['"]/g;
 var rParams = /([?#].*)$/g;
