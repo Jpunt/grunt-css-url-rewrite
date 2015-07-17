@@ -1,7 +1,7 @@
 {
   "name" : "grunt-css-url-rewrite",
   "description" : "A grunt task for rewriting urls inside a stylesheet",
-  "version" : "0.3.5",
+  "version" : "0.3.6",
   "homepage" : "",
   "author" : {
     "name" : "Jasper Haggenburg",

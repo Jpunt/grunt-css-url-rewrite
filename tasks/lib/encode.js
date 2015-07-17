@@ -16,7 +16,7 @@ var grunt_fetch = require("./fetch");
 
 // Cache regex's
 var rImages = /([\s\S]*?)(url\(([^)]+)\))(?!\s*[;,]?\s*\/\*\s*CssUrlRewrite:skip\s*\*\/)|([\s\S]+)/img; // TODO: Strip of CssUrlRewrite:skip
-var rExternal = /^http/;
+var rExternal = /^http|^\/\//;
 var rData = /^data:/;
 var rQuotes = /['"]/g;
 var rParams = /([?#].*)$/g;
@@ -77,9 +77,7 @@ exports.init = function(grunt) {
           .replace(rQuotes, "")
           .match(rParams);
 
-        img = group[3].trim()
-          .replace(rQuotes, "")
-          .replace(rParams, ""); // remove query string/hash parmams in the filename, like foo.png?bar or foo.png#bar
+        img = group[3].trim();
 
         // Ignore and strip off by querystring
         if(_.indexOf(params, "?gruntCssUrlRewrite=skip") > -1) {
@@ -94,6 +92,10 @@ exports.init = function(grunt) {
           complete();
           return;
         }
+
+        // if image is not external, do cleanup
+        img = img.replace(rQuotes, "")
+            .replace(rParams, ""); // remove query string/hash parmams in the filename, like foo.png?bar or foo.png#bar
 
         // process it
         var loc = img,
