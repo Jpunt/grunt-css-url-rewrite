@@ -103,13 +103,13 @@ exports.init = function(grunt) {
         if(is_local_file) {
           // local file system.. fix up the path
           loc = img.charAt(0) === "/" ?
-            (opts.baseDir || "") + loc :
-            path.join(path.dirname(srcFile),  (opts.baseDir || "") + img).replace(/\\/g, '/');
+            path.josin((opts.baseDir || ""), loc) :
+            path.join(path.dirname(srcFile),  (opts.baseDir || ""), img).replace(/\\/g, '/');
 
           // If that didn't work, try finding the image relative to
           // the current file instead.
           if(!fs.existsSync(loc)) {
-            loc = path.resolve(__dirname + img);
+            loc = path.resolve(path.join(__dirname, img));
           }
         }
 
