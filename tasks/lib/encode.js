@@ -46,7 +46,7 @@ exports.init = function(grunt) {
    */
   exports.stylesheet = function(srcFile, opts, done) {
     opts = opts || {};
-
+    opts.original_img = '';
     // Shift args if no options object is specified
     if(utils.kindOf(opts) === "function") {
       done = opts;
@@ -97,8 +97,10 @@ exports.init = function(grunt) {
 
         // process it
         var loc = img,
+          original_img = img,
           is_local_file = !rData.test(img) && !rExternal.test(img);
 
+        opts.original_img = original_img;
         // Resolve the image path relative to the CSS file
         if(is_local_file) {
           // local file system.. fix up the path
